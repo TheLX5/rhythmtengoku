@@ -96,6 +96,25 @@ void init_save_buffer(void) {
 }
 
 
+void open_all_levels(void) {
+    struct TengokuSaveData *data = &D_030046a8->data;
+    u32 i;
+
+    // unlock all levels
+    for (i = 0; i < TOTAL_LEVELS; i++) {
+        data->levelStates[i] = LEVEL_STATE_CLOSED;
+        //data->levelStates[i] = LEVEL_STATE_OPEN;
+        data->levelScores[i] = DEFAULT_LEVEL_SCORE;
+    }
+    data->levelStates[LEVEL_CAFE] = LEVEL_STATE_HIDDEN;
+    data->levelStates[LEVEL_RHYTHM_TOYS] = LEVEL_STATE_HIDDEN;
+    data->levelStates[LEVEL_ENDLESS_GAMES] = LEVEL_STATE_HIDDEN;
+    data->levelStates[LEVEL_DRUM_LESSONS] = LEVEL_STATE_HIDDEN;
+    data->levelStates[LEVEL_STAFF_CREDIT] = LEVEL_STATE_CLOSED;
+    data->levelStates[LEVEL_LIVE_MENU] = LEVEL_STATE_HIDDEN;
+}
+
+
 void clear_save_data(void) {
     struct SaveBuffer *buffer = D_030046a8;
 
@@ -105,6 +124,9 @@ void clear_save_data(void) {
     buffer->header.checksum = 0;
     buffer->header.unkC = 0x26040000;
     reset_game_save_data();
+    buffer->data.seenCredits = 0;
+    buffer->data.receivedIndex = 0;
+    buffer->data.mcMuffins = 0;
 }
 
 

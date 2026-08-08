@@ -80,12 +80,14 @@ void reset_game_save_data(void) {
     D_030046a8->data.unk294[3] = 10;    // High Score - Quiz Show EX
     D_030046a8->data.unk294[8] = DIRECTSOUND_MODE_STEREO; // Sound Mode
 
+    /*
     data->levelStates[LEVEL_KARATE_MAN] = LEVEL_STATE_OPEN;
     data->levelStates[LEVEL_CLAPPY_TRIO] = LEVEL_STATE_CLOSED;
     data->levelStates[LEVEL_SPACEBALL] = LEVEL_STATE_CLOSED;
     data->levelStates[LEVEL_RHYTHM_TWEEZERS] = LEVEL_STATE_CLOSED;
     data->levelStates[LEVEL_MARCHING_ORDERS] = LEVEL_STATE_CLOSED;
     data->levelStates[LEVEL_REMIX_1] = LEVEL_STATE_CLOSED;
+    */
     data->drumKitsUnlocked[STUDIO_DRUM_STANDARD] = TRUE;
     data->readingMaterialUnlocked[READING_MATERIAL_WELCOME] = TRUE;
     data->readingMaterialUnlocked[READING_MATERIAL_MANUAL] = TRUE;

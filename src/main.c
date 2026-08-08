@@ -50,6 +50,7 @@ void func_08000224(void) {
 	if (copy_sram_to_save_buffer() != 0) {
 		if (copy_sram_backup_to_save_buffer() != 0) {
 			clear_save_data();
+			open_all_levels();
 		} else {
 			flush_save_buffer_to_sram();
 		}

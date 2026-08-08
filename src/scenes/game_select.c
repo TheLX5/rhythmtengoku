@@ -95,7 +95,14 @@ s32 get_current_campaign(void) {
 
 // Decrement Plays Until Next Perfect Campaign
 void update_plays_until_next_campaign(void) {
+    /*
     if ((D_030046a8->data.campaignState == CAMPAIGN_STATE_AVAILABLE) && (get_level_state_from_id(LEVEL_REMIX_1) >= LEVEL_STATE_CLEARED)) {
+        if (D_030046a8->data.playsUntilNextCampaign > 0) {
+            D_030046a8->data.playsUntilNextCampaign--;
+        }
+    }
+    */
+    if (D_030046a8->data.campaignState == CAMPAIGN_STATE_AVAILABLE) {
         if (D_030046a8->data.playsUntilNextCampaign > 0) {
             D_030046a8->data.playsUntilNextCampaign--;
         }
@@ -133,8 +140,9 @@ void start_new_campaign(void) {
     if (notice->totalAvailable == 0) {
         return;
     }
-
-    playsUntilNewCampaign = 0;
+    
+    playsUntilNewCampaign = 1;
+    /*
     if (D_030046a8->data.totalMedals < MAX_MEDALS) {
         playsUntilNewCampaign = 1;
     }
@@ -144,6 +152,7 @@ void start_new_campaign(void) {
     if (D_030046a8->data.totalMedals < (MAX_MEDALS - 18)) {
         playsUntilNewCampaign = agb_random(4) + 3;
     }
+    */
 
     D_030046a8->data.campaignState = CAMPAIGN_STATE_AVAILABLE;
     D_030046a8->data.campaignAttemptsLeft = MAX_PERFECT_ATTEMPTS;
@@ -775,9 +784,9 @@ void game_select_scene_start(void *sVar, s32 dArg) {
             gGameSelect->baristaLevelEventTimer = 60;
         }
 
-        if ((get_level_id_from_grid_xy(prevX, prevY) == LEVEL_REMIX_6) && (recentLevelState >= LEVEL_STATE_CLEARED)) {
+        /*if ((get_level_id_from_grid_xy(prevX, prevY) == LEVEL_REMIX_6) && (recentLevelState >= LEVEL_STATE_CLEARED)) {
             enable_game_select_2_bgm();
-        }
+        }*/
     } else {
         gGameSelect->runningLevelEvents = FALSE;
         gGameSelect->levelEventTimer = 0;
@@ -1043,9 +1052,9 @@ void game_select_read_inputs(void) {
                     set_scene_trans_target(&scene_epilogue, &scene_game_select);
                     set_scene_trans_var(&scene_epilogue, (s32)levelData);
                     gameplay_pause_menu_set_quit_destination(&scene_game_select);
-                    if ((levelID == LEVEL_REMIX_6) && (levelState == LEVEL_STATE_OPEN)) {
+                    /*if ((levelID == LEVEL_REMIX_6) && (levelState == LEVEL_STATE_OPEN)) {
                         sPlayCreditsAfterEpilogue = TRUE;
-                    }
+                    }*/
                     canHaveCampaign = TRUE;
                     break;
 
@@ -1198,6 +1207,11 @@ void game_select_scene_update(void *sVar, s32 dArg) {
         return;
     }
 
+    if (D_030046a8->data.updateUIMedals != 0) {
+        D_030046a8->data.updateUIMedals = 0;
+        game_select_refresh_medal_count(127);
+    }
+
     bgOfsX = D_03004b10.BG_OFS[BG_LAYER_3].x;
     bgOfsY = D_03004b10.BG_OFS[BG_LAYER_3].y;
 
@@ -1320,6 +1334,7 @@ u32 game_select_check_level_event_req(s32 x, s32 y, s32 newState) {
     struct GameSelectGridEntry *gridEntry;
     const s8 *requirements;
     s32 state;
+    return FALSE;
 
     gridEntry = game_select_grid_data + x + (y * GS_GRID_WIDTH);
 
@@ -1566,7 +1581,7 @@ u32 game_select_process_level_events(void) {
             play_sound(&s_f_get_medal_seqData);
 
             D_030046a8->data.totalMedals++;
-            game_select_refresh_medal_count(127);
+            //game_select_refresh_medal_count(127);
             cafe_session_remove_level(id);
             D_030046a8->data.levelFirstSuperb[id] = D_030046a8->data.levelTotalPlays[id];
             if (D_030046a8->data.levelFirstOK[id] == 0) {
@@ -1744,7 +1759,7 @@ void game_select_init_medal_pane(void) {
     sprite_set_origin_x_y(gSpriteHandler, gGameSelect->medalPaneTitle, &bgOfs->x, &bgOfs->y);
     sprite_set_origin_x_y(gSpriteHandler, gGameSelect->medalPaneDigit1, &bgOfs->x, &bgOfs->y);
     sprite_set_origin_x_y(gSpriteHandler, gGameSelect->medalPaneDigit2, &bgOfs->x, &bgOfs->y);
-    game_select_set_medal_count(D_030046a8->data.totalMedals);
+    game_select_set_medal_count(D_030046a8->data.mcMuffins);
     gGameSelect->medalPaneFlickerTimer = 0;
 }
 
@@ -1771,7 +1786,7 @@ void game_select_update_medal_pane(void) {
 
 // Refresh Medal Count
 void game_select_refresh_medal_count(u32 flickerDuration) {
-    game_select_set_medal_count(D_030046a8->data.totalMedals);
+    game_select_set_medal_count(D_030046a8->data.mcMuffins);
     gGameSelect->medalPaneFlickerTimer = flickerDuration;
 }
 

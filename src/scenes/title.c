@@ -214,11 +214,14 @@ void title_scene_paused(void *sVar, s32 dArg) {
 // Update Inputs
 void title_scene_update_inputs(void) {
     if (D_03004afc & (A_BUTTON | START_BUTTON)) {
+        /*
         if (D_030046a8->data.unkB0) {
             set_next_scene(&scene_main_menu);
         } else {
             set_next_scene(&scene_drum_samurai_opening_cutscene);
         }
+        */
+        set_next_scene(&scene_main_menu);
 
         func_0801d968(script_scene_title_exit);
         gTitle->inputsEnabled = FALSE;
@@ -232,6 +235,7 @@ void title_scene_update_inputs(void) {
 
 // Scene Update (Active)
 void title_scene_update(void *sVar, s32 dArg) {
+    /*
     if (gTitle->timeUntilDemo > 0) {
         if (--gTitle->timeUntilDemo == 0) {
             set_next_scene(&scene_drum_samurai_demo_cutscene);
@@ -240,6 +244,7 @@ void title_scene_update(void *sVar, s32 dArg) {
             gTitle->inputsEnabled = FALSE;
         }
     }
+    */
 
     if (title_scene_inputs_enabled()) {
         title_scene_update_inputs();

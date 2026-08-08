@@ -73,6 +73,11 @@ extern struct SaveBuffer {
             u16 replaySizes[10];
             u8 saveMemory[0x38][0x100];
         } drumReplaysAlloc;
+        u16 receivedIndex;
+        u16 seenCredits;
+        u16 mcMuffins;
+        u16 beepCount;
+        u16 updateUIMedals;
     } data;
 } *D_030046a8;
 
@@ -85,6 +90,7 @@ extern u32 get_memory_heap_length(void);
 extern s32 generate_save_buffer_checksum(s32 *buffer, u32 size);
 extern void init_save_buffer(void);
 extern void clear_save_data(void);
+extern void open_all_levels(void);
 extern s32 copy_to_save_buffer(u8 *cartRAM);
 extern s32 copy_sram_to_save_buffer(void);
 extern s32 copy_sram_backup_to_save_buffer(void);
